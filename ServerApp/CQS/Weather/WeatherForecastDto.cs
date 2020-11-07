@@ -19,7 +19,7 @@ namespace Server
     {
         private static readonly string[] Summaries = new[]
         {
-            "1Freezing", "2Bracing",// "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "3Freezing", "3Bracing",// "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
         internal static List<WeatherForecastDto> GetForecast(DateTime now, int daysForward)

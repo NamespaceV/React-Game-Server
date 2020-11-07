@@ -8,14 +8,12 @@ namespace Server
     {
         public static async Task Main(string[] args)
         {
-            await CreateHostBuilder(args).Build().RunAsync();
+            var hostBuilder = Host
+                .CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(x =>
+                    x.UseStartup<Startup>());
+            var host = hostBuilder.Build();
+            await host.RunAsync();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }
