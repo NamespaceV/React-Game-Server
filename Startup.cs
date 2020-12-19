@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Server.ServerApp.CQS.Core;
 
 namespace Server
 {
@@ -21,6 +22,8 @@ namespace Server
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.Scan(s => s.FromCallingAssembly().AddClasses().AsImplementedInterfaces());
         }
 
         public void Configure(

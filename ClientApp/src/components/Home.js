@@ -9,6 +9,13 @@ export class Home extends Component {
         this.setState({ data: data, loading: false });
     }
 
+    async createGame() {
+        this.setState({ data: [], loading: true });
+        const response = await fetch('ticktacktoe/create');
+        const data = await response.json();
+        this.setState({ data: data, loading: false });
+    }
+
     constructor(props) {
         super(props);
         this.state = { data: [], loading: true };
@@ -17,7 +24,6 @@ export class Home extends Component {
     componentDidMount() {
         this.loadData();
     }
-
 
     static renderTable(data) {
         return (
@@ -38,13 +44,18 @@ export class Home extends Component {
         );
     }
 
+    renderContents() {
+        if (this.state.loading) {
+            return <p><em>Loading...</em></p>;
+        }
+        return <>
+            <a onClick={this.createGame.bind(this)} class="btn btn-primary">Create New Game</a>
+            {Home.renderTable(this.state.data)}
+        </>;
+    }
+
     render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : <>
-                <a href="/" class="btn btn-primary">Create New Game</a>
-                {Home.renderTable(this.state.data)}
-            </>;
+        let contents = this.renderContents();
 
         return (
             <div>

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Server.ServerApp.CQS.Core;
+using Server.ServerApp.CQS.TickTackToe;
 
 namespace Server.Controllers
 {
@@ -9,25 +10,30 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class TickTackToeController : ControllerBase
     {
-        private const string _gamesPath = @"F:\Projects\ProjectGameJs\Server\Data\Games";
-        public TickTackToeController()
+        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryDispatcher _queryDispatcher;
+
+        public TickTackToeController(
+            ICommandDispatcher commandDispatcher,
+            IQueryDispatcher queryDispatcher)
         {
+            _commandDispatcher = commandDispatcher;
+            _queryDispatcher = queryDispatcher;
         }
 
         [HttpGet]
         [Route("list")]
-        public List<string> ListGames()
+        public async Task<List<string>> ListGames()
         {
-            return Directory.EnumerateDirectories(_gamesPath).Select(path => new DirectoryInfo(path).Name).ToList();
+            return await _queryDispatcher.DispatchAsync<ListGamesQuery, List<string>> (new ListGamesQuery());
         }
 
         [HttpGet]
         [Route("create")]
-        public List<string> CreateGame()
+        public async Task<List<string>> CreateGame()
         {
-            var gameId = System.Guid.NewGuid();
-            new DirectoryInfo(_gamesPath).CreateSubdirectory(gameId.ToString());
-            return ListGames();
+            await _commandDispatcher.DispatchAsync(new CreateGameCommand());
+            return await ListGames();
         }
     }
 }
