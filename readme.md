@@ -1,12 +1,14 @@
-simple HTTP game server
+Simple HTTP game server
+=======
+learning playground
 
-learning how to host React Front
-on on .Net Core MVC Backend
+React Front hosted on .Net Core MVC Backend
 
-once it starts working i want to use it to prototypoe
-simple multipleyer browser games
-and host this locally on IIS
-with potential Cloud deployment
+Once it starts working I want to use it to prototype
+simple multipleyer browser games.
+
+Host this locally on IIS.
+With potential Cloud deployment, if any of games are actually fun.
 
 - no auth
 - no db, I'll use files for now
